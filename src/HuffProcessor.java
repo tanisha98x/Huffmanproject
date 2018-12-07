@@ -69,11 +69,11 @@ public class HuffProcessor {
 		
 		
 		
-		while (true){
-			int val = in.readBits(BITS_PER_WORD);
-			if (val == -1) break;
-			out.writeBits(BITS_PER_WORD, val);
-		}
+		//while (true){
+		//	int val = in.readBits(BITS_PER_WORD);
+		//	if (val == -1) break;
+	//		out.writeBits(BITS_PER_WORD, val);
+	//	}
 	}
 	
 	public HuffNode readTreeHeader(BitInputStream in) {
