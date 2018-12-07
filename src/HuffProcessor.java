@@ -106,8 +106,8 @@ public class HuffProcessor {
 		      else current = current.myRight;
 
 		           if (current.myLeft==null && current.myRight==null) {
-		               if (current.myValue == PSEUDO_EOF) 
-		                   break;   
+		               if (current.myValue == PSEUDO_EOF) {
+		                   break;   }
 		               else {
 		            	   out.writeBits(BITS_PER_INT,current.myValue);
 		            	  
