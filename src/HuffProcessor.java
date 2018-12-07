@@ -60,13 +60,26 @@ public class HuffProcessor {
 			if (val == -1) break;
 			freq[val] += 1;
 		}
-		
 		return freq;
 	}
 	
 	public String[] makeCodingsFromTree(HuffNode root) {
+		String[] encodings = new String[ALPH_SIZE + 1];
+		codingHelper(root,"",encodings);
 		return null;
 	}
+	
+	public void codingHelper(HuffNode root,String str,String []encodings) {
+		if (root.myLeft==null && root.myRight== null) {
+			encodings[root.myValue]= str;
+			return;
+		}
+		else {
+			codingHelper(root.myLeft, str+ "0", encodings);
+			codingHelper(root.myRight, str+ "1", encodings);
+		}
+	}
+
 	
 	public HuffNode makeTreeFromCounts(int []counts) {
 		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
