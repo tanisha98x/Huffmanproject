@@ -66,10 +66,11 @@ public class HuffProcessor {
 	public String[] makeCodingsFromTree(HuffNode root) {
 		String[] encodings = new String[ALPH_SIZE + 1];
 		codingHelper(root,"",encodings);
-		return null;
+		return encodings;
 	}
 	
 	public void codingHelper(HuffNode root,String str,String []encodings) {
+		if (root==null) {return;}
 		if (root.myLeft==null && root.myRight== null) {
 			encodings[root.myValue]= str;
 			return;
@@ -100,13 +101,43 @@ public class HuffProcessor {
 	}
 
 
-	
-	public void writeHeader(HuffNode root, BitOutputStream out) {
+	private void writeHeader(HuffNode root, BitOutputStream out) {
+		if (! (root.myLeft == null && root.myRight == null)) {
+			out.writeBits(1,0);
+			writeHeader(root.myLeft, out);
+			writeHeader(root.myRight, out);
+		}
+		if (root.myLeft==null && root.myRight==null) {
+			out.writeBits(1,1);
+			out.writeBits(BITS_PER_WORD + 1, root.myValue);
+			return;
+			
+		}
+		else {return;}
 		
 	}
 	
 	public void writeCompressedBits(String [] codings, BitInputStream in, BitOutputStream out) {
+
+		while(true) {
+			int bits = in.readBits(BITS_PER_WORD);
+			if (bits == -1) {
+				String each = codings[PSEUDO_EOF];
+				out.writeBits(each.length(), Integer.parseInt(each,2));
+				break;
+			
+			}
+			String each = codings[bits];
 		
+			out.writeBits(each.length(), Integer.parseInt(each,2));
+		
+			if (bits == -1) {
+				each = codings[PSEUDO_EOF];
+				out.writeBits(each.length(), Integer.parseInt(each));
+				break;
+			
+			}
+		}	
 	}
 	/**
 	 * Decompresses a file. Output file must be identical bit-by-bit to the
