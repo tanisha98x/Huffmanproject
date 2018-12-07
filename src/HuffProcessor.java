@@ -102,7 +102,7 @@ public class HuffProcessor {
 		               if (current.myValue == PSEUDO_EOF) 
 		                   break;   
 		               else {
-		            	   out.writeBits(BITS_PER_INT,current.myValue);
+		            	   out.writeBits(BITS_PER_WORD,current.myValue);
 		            	  
 		                   current = root; // start back after leaf
 		               }
